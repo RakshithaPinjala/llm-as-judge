@@ -9,25 +9,31 @@ graph TD
     classDef file fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b
     classDef logic fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
     classDef output fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20
+    classDef mitigate fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#f57f17
     
-    A[Test Suite<br/>JSON/YAML]:::file
+    A[Test Suite Input<br/>JSON/YAML]:::file
     B[Config<br/>YAML]:::file
-    C[LLM Judge<br/>OpenAI/Gemini]:::logic
+    C[LLM Judge Model API<br/>OpenAI/Gemini]:::logic
     
     A --> D
     B --> D
     C --> D
     
     subgraph Evaluator Orchestrator
-        D[1. Parse Test Cases<br/>Pydantic Models]:::logic
-        E[2. Construct Pairwise Prompts<br/>A vs B, B vs A]:::logic
-        F[3. Enforce Structured Verdict<br/>Criteria, Reasoning, Score]:::logic
-        G[4. Detect Position Bias<br/>& Aggregate Results]:::logic
+        D[Parse Test Cases<br/>Pydantic Models]:::logic
+        E[Judging-Prompt Construction]:::logic
         
-        D --> E --> F --> G
+        M1[BIAS MITIGATION:<br/>A/B Position Order Swap<br/>Construct Prompt A->B and B->A]:::mitigate
+        E --> M1
+        
+        M1 --> F[Judge Model API Call]:::logic
+        
+        F --> G[Structured-Verdict Parsing<br/>with Malformed-JSON Fallback / Retry]:::logic
+        G --> H[Per-Case Aggregation]:::logic
     end
     
-    G --> H[Metrics<br/>JSON Logs]:::output
+    H --> I[Suite Report Generation]:::logic
+    I --> J[Metrics<br/>JSON Logs]:::output
 ```
 
 ## Setup Instructions
