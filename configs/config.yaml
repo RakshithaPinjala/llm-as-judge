@@ -1,0 +1,7 @@
+judge:
+  provider: "gemini"
+  model_name: "gemini-2.5-flash"
+
+paths:
+  test_suite: "data/sample_suite.json"
+  output_dir: "results"

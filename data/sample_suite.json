@@ -1,0 +1,16 @@
+[
+  {
+    "id": "case-1",
+    "input": "Explain the difference between a list and a tuple in Python.",
+    "system_prompt": "You are a helpful Python expert.",
+    "model_a_output": "A list is mutable, meaning it can be modified after creation. A tuple is immutable, meaning it cannot be changed. Lists use square brackets [], while tuples use parentheses ().",
+    "model_b_output": "Well, they are basically the same. Both store data. But you can't change tuples."
+  },
+  {
+    "id": "case-2",
+    "input": "Write a python function to sum a list of numbers.",
+    "system_prompt": "",
+    "model_a_output": "def sum_list(lst):\n    return sum(lst)",
+    "model_b_output": "Here is a python function to sum a list of numbers:\n\n```python\ndef sum_numbers(numbers):\n    total = 0\n    for num in numbers:\n        total += num\n    return total\n```\n\nThis function iterates over each number and adds it to a running total."
+  }
+]
