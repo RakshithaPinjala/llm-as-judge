@@ -4,27 +4,30 @@ An automated, structured evaluation pipeline for scoring and comparing LLM outpu
 
 ## Architecture
 
-```text
-    +-----------------+      +-----------------+      +------------------+
-    |   Test Suite    |      |  Config (YAML)  |      |   LLM Judge      |
-    | (JSON/YAML)     |      +--------+--------+      | (OpenAI/Gemini)  |
-    +--------+--------+               |               +--------+---------+
-             |                        |                        |
-             v                        v                        v
-    +--------------------------------------------------------------------+
-    |                          Evaluator Orchestrator                    |
-    |                                                                    |
-    |  1. Parse Test Cases (Pydantic Models)                             |
-    |  2. Construct Pairwise Prompts (A vs B, B vs A)                    |
-    |  3. Enforce Structured Verdict (Criteria, Reasoning, Score)        |
-    |  4. Detect Position Bias & Aggregate Results                       |
-    +---------------------------------+----------------------------------+
-                                      |
-                                      v
-                             +--------+--------+
-                             |     Metrics     |
-                             |   (JSON Logs)   |
-                             +-----------------+
+```mermaid
+graph TD
+    classDef file fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b
+    classDef logic fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
+    classDef output fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20
+    
+    A[Test Suite<br/>JSON/YAML]:::file
+    B[Config<br/>YAML]:::file
+    C[LLM Judge<br/>OpenAI/Gemini]:::logic
+    
+    A --> D
+    B --> D
+    C --> D
+    
+    subgraph Evaluator Orchestrator
+        D[1. Parse Test Cases<br/>Pydantic Models]:::logic
+        E[2. Construct Pairwise Prompts<br/>A vs B, B vs A]:::logic
+        F[3. Enforce Structured Verdict<br/>Criteria, Reasoning, Score]:::logic
+        G[4. Detect Position Bias<br/>& Aggregate Results]:::logic
+        
+        D --> E --> F --> G
+    end
+    
+    G --> H[Metrics<br/>JSON Logs]:::output
 ```
 
 ## Setup Instructions
